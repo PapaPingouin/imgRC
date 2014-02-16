@@ -12,6 +12,7 @@
 	require_once('imgRC_class.php');
 	
 	imgRC::$cacheFolder = './CACHE/';
+	imgRC::$salt = "6Nn@LrB.g:,Vy};R#@J}BX+23y#S[$*=&=;25HhU"; // do not change after generate urls
 		
 	imgRC::$OPTtrim = true;
 	imgRC::$OPTq= 80;

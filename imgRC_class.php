@@ -12,6 +12,7 @@ class imgRC
 {
 	// default values
 	public static $cacheFolder = './CACHE/';
+	public static $salt = "6Nn@LrB.g:,Vy};R#@J}BX+23y#S[$*=&=;25HhU"; // do not change after generate urls
 		
 	public static $OPTtrim = true;
 	public static $OPTq= 80;
@@ -448,11 +449,11 @@ class imgRC
 
 	public static function cryptOpt( $options )
 	{
-		return 'c='.self::STRcrypt( $options, 'Ben voilà 1 super clé trop fort à casser !' );
+		return 'c='.self::STRcrypt( $options, self::$salt );
 	}
 	public static function uncryptOpt( $c )
 	{
-		return self::STRuncrypt( $c, 'Ben voilà 1 super clé trop fort à casser !' );
+		return self::STRuncrypt( $c, self::$salt );
 	}
 	
 	private static function STRcrypt( $string, $cle )

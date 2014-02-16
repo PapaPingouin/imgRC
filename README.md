@@ -19,3 +19,7 @@ RewriteEngine on
 RewriteRule		^(.*\.(jpg|png|JPG|PNG|jpeg|JPEG|gif|GIF|pdf\.jpg|pdf\.png))$	imgRC.php?uri=$1	[NC,L,QSA]
 ```
 
+urls
+====
+
+`image.jpg?option=x200,y200,q80,crop,progress,nocache,dureecache,ffpng,gris1,bgff0000`

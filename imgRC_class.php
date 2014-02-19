@@ -100,6 +100,9 @@ class imgRC
 		
 		$dossierCache = self::$cacheFolder.$dossierMD5;
 		
+		$urlfichier = trim( self::makeurl( $Uri."-$opt[x]"."-$opt[y]"."-".implode(',',$opt) ), ' \t\n\r.-_') ;
+		$urlcache = $dossierCache.$urlfichier;
+		
 		self::testOrCreateDir( $dossierCache ); // dans le cas ou le dossier Cache n'existe pas
 		
 		return array('uri'=>$Uri,
@@ -188,10 +191,8 @@ class imgRC
 	
 	public static function checkCache( &$infoUrl, &$opt )
 	{ // renvoi true si le fichier est en cache et valide, sinon, false;
-		//header('X-TEST-dateCache: '.date('D, d M Y H:i:s',$infoUrl['dateCache'] ) );
-		//header('X-TEST-dateModif: '.date('D, d M Y H:i:s',$infoUrl['dateModif'] ) );
 		
-		return ( !$opt['nocache'] && $infoUrl['dateCache'] > ( time()-$opt['dureeCache']) && $infoUrl['dateModif']< $infoUrl['dateCache']  ); 
+		return ( !$opt['nocache'] && $infoUrl['dateCache'] > ( time()-$opt['dureeCache'] ) && $infoUrl['dateModif']< $infoUrl['dateCache']  );
 	}
 	
 	public static function erreur404()
@@ -324,7 +325,7 @@ class imgRC
 	
 	public static function genereImg( &$infoUrl, &$opt )
 	{
-		header('X-NicImg : Img Générator' );
+		header('X-NicImg: Img Générator' );
 		$time_start = microtime(true);
 		
 		require ("imgRC_gd.php" );
@@ -508,6 +509,19 @@ class imgRC
 				return $out[1];
 		return false;
 	}
+	
+	private function makeurl( $chaine , $tolower=1 )
+	{    // retourne une chaine sans accente, sans espace, sans caractères spéciaux et en minuscule pour les URL
+		$tofind = utf8_decode("ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüÿÑñµ°²³+#/\\,; _%&?'\":´…’`»«");
+		$replac = 			  "AAAAAAaaaaaaOOOOOOooooooEEEEeeeeCcIIIIiiiiUUUUuuuuyNnud23-----------------------------";
+		$chaine = utf8_decode( $chaine );
+		//$tofind = " _%&?'\":";
+		//$replac = "-----------"; 
+		$chaine = strtr($chaine,$tofind,$replac);
+		 if( $tolower ) $chaine = strtolower( $chaine );    
+		return(preg_replace("#(-+)#","-",$chaine));
+	}
 
 }
 
+?>
